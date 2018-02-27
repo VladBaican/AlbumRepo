@@ -1,0 +1,9 @@
+<h1 style="margin-top:50px;">Edit artist</h1>
+
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url('artist/edit', [], true));
+echo $this->partial('artist/artist/form', [
+    'form' => $form,
+    'submitLabel' => 'Update artist'
+]);

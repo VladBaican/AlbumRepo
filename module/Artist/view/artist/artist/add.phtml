@@ -1,0 +1,9 @@
+<h1 style="margin-top:50px;">Add an artist</h1>
+
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url());
+echo $this->partial('artist/artist/form', [
+    'form' => $form,
+    'submitLabel' => 'Insert new artist',
+]);

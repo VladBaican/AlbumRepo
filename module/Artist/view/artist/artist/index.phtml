@@ -1,0 +1,26 @@
+<h1 style="margin-top:50px;">Artists</h1>
+
+<p>
+    <a href="<?= $this->url('artist/add', ['action' => 'add']) ?>">Add new artist</a>
+</p>
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Birthday</th>
+        <th>Civil state</th>
+        <th>Number of albums</th>
+        <th>&nbsp;</th>
+    </tr>
+    <?php foreach ($this->artists as $artist) : ?>
+        <tr>
+            <td><?= $this->escapeHtml($artist->getName()) ?></td>
+            <td><?= $this->escapeHtml($artist->getBirthday()) ?></td>
+            <td><?= $this->escapeHtml(1 == $artist->getCivilState() ? 'married' : 'unmarried') ?></td>
+            <td style="padding-left:67px;"><?= $this->escapeHtml($artist->getNumberOfAlbums()) ?></td>
+            <td>
+                <a href="<?= $this->url('artist/edit', ['id' => $artist->getId()]) ?>">Edit</a>
+                <a href="<?= $this->url('artist/delete', ['id' => $artist->getId()]) ?>">Delete</a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>

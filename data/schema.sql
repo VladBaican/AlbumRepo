@@ -1,0 +1,6 @@
+DROP TABLE album;
+CREATE TABLE album (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    artistId INTEGER NOT NULL REFERENCES artists,
+    title varchar(100) NOT NULL
+);

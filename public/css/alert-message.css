@@ -1,0 +1,10 @@
+.alert-success,.alert-danger,.alert-warning {
+    padding: 10px;
+    margin-top: 55px;
+    margin-bottom: -50px;
+}
+
+.btn-default.btn-alert-close {
+    margin-top: -2px;
+    float: right;
+}
