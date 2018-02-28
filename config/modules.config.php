@@ -12,6 +12,7 @@
  */
 
 return [
+    'Zend\Mvc\I18n',
     'Zend\Mvc\Plugin\FlashMessenger',
     'Zend\Paginator',
     'Zend\Navigation',
