@@ -1,17 +1,19 @@
 <?php
 
-$title = 'My albums';
+$title = $this->translator->translate('My albums');
 $this->headTitle($title);
 ?>
-<h1 style="margin-top:56px;"><?= $this->escapeHtml($title) ?></h1>
+<h1 style="margin-top:75px;"><?= $this->escapeHtml($title) ?></h1>
 <p>
-    <a href="<?= $this->url('album', ['action' => 'add']) ?>">Add new album</a>
+    <a href="<?= $this->url('album', ['action' => 'add']) ?>">
+        <?= $this->translator->translate('Add new album') ?>
+    </a>
 </p>
 
 <table class="table">
     <tr>
-        <th>Title</th>
-        <th>Artist</th>
+        <th><?= $this->translator->translate('Title') ?></th>
+        <th><?= $this->translator->translate('Artist') ?></th>
         <th>&nbsp;</th>
     </tr>
     <?php foreach ($this->paginator as $album) : ?>
@@ -24,10 +26,10 @@ $this->headTitle($title);
             </td>
             <td>
                 <a href="<?= $this->url('album', ['action' => 'edit', 'id' => $album->id]) ?>">
-                    Edit
+                    <?= $this->translator->translate('Edit') ?>
                 </a>
                 <a href="<?= $this->url('album', ['action' => 'delete', 'id' => $album->id]) ?>">
-                    Delete
+                    <?= $this->translator->translate('Delete') ?>
                 </a>
             </td>
         </tr>

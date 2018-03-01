@@ -53,12 +53,21 @@
                 <div class="collapse navbar-collapse">
                     <?= $this->navigation('navigation')
                         ->menu()
+                        ->setTranslator($this->translator)
+                        ->setTranslatorEnabled(true)
                         ->setMinDepth(0)
                         ->setMaxDepth(0)
                         ->setUlClass('nav navbar-nav') ?>
                     <select class="SelectPicker language-select-picker selectpicker" data-width="fit">
-                        <option data-content='<span class="flag-icon flag-icon-us"></span> English'>English</option>
-                        <option  data-content='<span class="flag-icon flag-icon-de"></span> Deutsche'>Deutsche</option>
+                        <option
+                            selected value="en_US"
+                            data-content='<span class="flag-icon flag-icon-us"></span> English'
+                        >
+                            English
+                        </option>
+                        <option value="de_DE" data-content='<span class="flag-icon flag-icon-de"></span> Deutsche'>
+                            Deutsche
+                        </option>
                     </select>
                 </div>
             </div>
@@ -76,7 +85,10 @@
             <?= $this->content ?>
             <hr>
             <footer>
-                <p>&copy; 2005 - <?= date('Y') ?> by Zend Technologies Ltd. All rights reserved.</p>
+                <p>
+                    &copy; 2005 - <?= date('Y') ?>
+                    <?= $this->translator->translate('by Zend Technologies Ltd. All rights reserved.') ?>
+                </p>
             </footer>
         </div>
         <?= $this->inlineScript() ?>

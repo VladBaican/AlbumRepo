@@ -9,6 +9,7 @@ namespace Application\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Application\Services\TranslatorService;
 
 class IndexController extends AbstractActionController
 {

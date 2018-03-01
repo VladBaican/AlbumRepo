@@ -90,9 +90,7 @@ class ArtistController extends AbstractActionController
         );
         $this->flashMessenger()->addMessage($alertMessage);
 
-        return $this->redirect()->toRoute(
-            'artist'
-        );
+        return $this->redirect()->toRoute('artist');
     }
 
     /**

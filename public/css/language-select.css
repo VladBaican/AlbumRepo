@@ -1,4 +1,5 @@
 .language-select-picker {
+    style: 'btn-info';
     margin-top: 10px;
     display: inline-block;;
     float: right;

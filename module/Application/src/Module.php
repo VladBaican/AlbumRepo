@@ -7,9 +7,35 @@
 
 namespace Application;
 
+use Zend\ModuleManager\ModuleManager;
+use Zend\Mvc\MvcEvent;
+use Zend\Session\Container;
+
 class Module
 {
     const VERSION = '3.0.3-dev';
+
+    public function onBootstrap(MvcEvent $event)
+    {
+        $serviceManager = $event->getApplication()->getServiceManager();
+        $viewModel = $event->getApplication()->getMvcEvent()->getViewModel();
+
+        $translator = $serviceManager->get('translator');
+        $viewModel->translator = $translator;
+
+        //$this->initTranslator($event);
+    }
+
+    protected function initTranslator(MvcEvent $event)
+    {
+        $serviceManager = $event->getApplication()->getServiceManager();
+
+        // Zend\Session\Container
+        $session = new Container('language');
+
+        $translator = $serviceManager->get('translator');
+        $translator->setLocale($session->language);
+    }
 
     public function getConfig()
     {

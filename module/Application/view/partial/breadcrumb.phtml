@@ -1,20 +1,21 @@
+<?php $translator = $this->ViewModel()->getCurrent()->getVariable('translator') ?>
+
 <ul class="breadcrumb">
     <?php
     // iterate through the pages
-    foreach ($this->pages as $key => $page):
+    foreach ($this->pages as $key => $page) :
     ?>
-
         <li>
             <?php
             // if this isn't the last page, add a link and the separator:
-            if ($key < count($this->pages) - 1):
+            if ($key < count($this->pages) - 1) :
             ?>
                 <a href="<?= $page->getHref() ?>"><?= $page->getLabel() ?></a>
             <?php
             // otherwise, output the name only:
-            else:
+            else :
             ?>
-                <?= $page->getLabel() ?>
+                <?= $translator->translate($page->getLabel()) ?>
             <?php endif; ?>
         </li>
     <?php endforeach; ?>

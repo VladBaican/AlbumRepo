@@ -38,7 +38,7 @@ return [
     ],
     'controllers' => [
         'factories' => [
-            Controller\IndexController::class => InvokableFactory::class,
+            Controller\IndexController::class => InvokableFactory::class
         ],
     ],
     'view_manager' => [
@@ -60,7 +60,7 @@ return [
     'navigation' => [
         'default' => [
             [
-                'label' => 'Home',
+                'label' => 'Home',//$this->translate('Home'),
                 'route' => 'home',
             ],
             [
@@ -139,13 +139,21 @@ return [
             'event_manager' => function ($container) {
                 $eventManager = new \Zend\EventManager\EventManager();
 
-                $albumEventListener = new \Album\AlbumEventListener\AlbumEventListener(
+                $albumEventListener = new \Album\EventListener\AlbumEventListener(
                     $container->get(\Album\Model\AlbumTable::class),
                     $container->get(\Artist\Service\ArtistService::class)
                 );
                 $albumEventListener->attach($eventManager);
 
                 return $eventManager;
+            },
+            'translator' => function ($container) {
+                $translator = new \Zend\I18n\Translator\Translator();
+                $translatorService = new Services\TranslatorService(
+                    $translator
+                );
+
+                return $translatorService;
             }
         ],
     ]

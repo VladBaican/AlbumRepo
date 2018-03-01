@@ -13,7 +13,11 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\EventManager\EventManager;
 use \Application\Model\AlertMessage;
+use \Application\Services\TranslatorService;
 
+/**
+ * Album Controller
+ */
 class AlbumController extends AbstractActionController
 {
     /**
@@ -26,12 +30,26 @@ class AlbumController extends AbstractActionController
      */
     protected $eventManager;
 
+    /**
+     * @var TranslatorService
+     */
+    protected $translator;
+
+    /**
+     * Constructor.
+     *
+     * @param AlbumTable        $table
+     * @param EventManager      $eventManager
+     * @param TranslatorService $translator
+     */
     public function __construct(
         AlbumTable $table,
-        EventManager $eventManager
+        EventManager $eventManager,
+        TranslatorService $translator
     ) {
         $this->table = $table;
         $this->eventManager = $eventManager;
+        $this->translator = $translator;
     }
 
     /**
@@ -54,7 +72,8 @@ class AlbumController extends AbstractActionController
 
         return new ViewModel([
             'paginator' => $paginator,
-            'table' => $this->table
+            'table' => $this->table,
+            'translator' => $this->translator
         ]);
     }
 
