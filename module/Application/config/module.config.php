@@ -20,7 +20,7 @@ return [
                     'route'    => '/',
                     'defaults' => [
                         'controller' => Controller\IndexController::class,
-                        'action'     => 'index',
+                        'action'     => 'login',
                     ],
                 ],
             ],
@@ -60,7 +60,7 @@ return [
     'navigation' => [
         'default' => [
             [
-                'label' => 'Home',//$this->translate('Home'),
+                'label' => 'Home',
                 'route' => 'home',
             ],
             [
@@ -130,7 +130,11 @@ return [
                         'action' => 'delete'
                     ]
                 ],
-            ]
+            ],
+            // [
+            //     'label' => 'Authentication',
+            //     'route' => 'authentication',
+            // ]
         ],
     ],
     'service_manager' => [

@@ -5,9 +5,9 @@ use Zend\Authentication\Adapter\DbTable\CallbackCheckAdapter;
 use Zend\Db\Adapter\Adapter as DbAdapter;
 
 /**
- * Authentification Service
+ * Authentication Service
  */
-class AuthentificationAdapter extends CallbackCheckAdapter
+class AuthenticationAdapter extends CallbackCheckAdapter
 {
     /**
      * @const string

@@ -2,7 +2,7 @@
 namespace Authentication\Services;
 
 use Zend\Authentication\AuthenticationService as ZendAuthenticationService;
-use Application\Adapter\AuthentificationAdapter;
+use Application\Adapter\AuthenticationAdapter;
 
 /**
  * Authentication Service
@@ -13,11 +13,11 @@ class AuthenticationService extends ZendAuthenticationService
      * Constructor.
      *
      * @param  StorageInterface $storage
-     * @param  AuthentificationAdapter $adapter
+     * @param  AuthenticationAdapter $adapter
      */
     public function __construct(
         StorageInterface $storage = null,
-        AuthentificationAdapter $adapter = null
+        AuthenticationAdapter $adapter = null
     ) {
         parent::__construct($storage, $adapter);
     }

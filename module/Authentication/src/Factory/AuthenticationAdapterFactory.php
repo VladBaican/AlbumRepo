@@ -3,29 +3,31 @@ namespace Authentication\Factory;
 
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
-use Authentication\Services\AuthenticationService;
+use \Zend\Db\Adapter\Adapter;
 use Authentication\Model\AuthenticationAdapter;
 
 /**
- * Authentication Service Factory
+ * Authentication Adapter Factory
  */
-class AuthenticationServiceFactory implements FactoryInterface
+class AuthenticationAdapterFactory implements FactoryInterface
 {
     /**
      * @param  ContainerInterface       $container
      * @param  string                   $requestedName
      * @param  array                    $options
-     * @return AuthenticationService
+     * @return AuthenticationAdapter
      */
     public function __invoke(
         ContainerInterface $container,
         $requestedName,
         array $options = null
     ) {
-        $dadd = $container->get(\Zend\Db\Adapter\Adapter::class);
-        return new AuthenticationService(
-            $dadd,
-            $container->get(AuthenticationAdapter::class)
+        return new AuthenticationAdapter(
+            $container->get(Adapter::class),
+            AuthenticationAdapter::TABLE_NAME,
+            AuthenticationAdapter::IDENTITY_COLUMN,
+            AuthenticationAdapter::CREDENTIAL_COLUMN,
+            null
         );
     }
 }

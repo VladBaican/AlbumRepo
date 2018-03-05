@@ -17,4 +17,9 @@ class IndexController extends AbstractActionController
     {
         return new ViewModel();
     }
+
+    public function loginAction()
+    {
+        return $this->redirect()->toRoute('authentication');
+    }
 }

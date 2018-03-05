@@ -44,6 +44,11 @@ class ArtistController extends AbstractActionController
         $this->eventManager = $eventManager;
     }
 
+    /**
+     * Index action.
+     *
+     * @return Response
+     */
     public function indexAction()
     {
         return new ViewModel([
