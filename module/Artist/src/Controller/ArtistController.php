@@ -28,6 +28,8 @@ class ArtistController extends AbstractActionController
     protected $eventManager;
 
     /**
+     * Constructor.
+     *
      * @param ArtistForm $form
      * @param PostCommandInterface $command
      */

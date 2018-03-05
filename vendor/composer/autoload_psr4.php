@@ -50,6 +50,7 @@ return array(
     'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),
     'DeepCopy\\' => array($vendorDir . '/myclabs/deep-copy/src/DeepCopy'),
     'Blog\\' => array($baseDir . '/module/Blog/src'),
+    'Authentication\\' => array($baseDir . '/module/Authentication/src'),
     'Artist\\' => array($baseDir . '/module/Artist/src'),
     'Application\\' => array($baseDir . '/module/Application/src'),
     'ApplicationTest\\' => array($baseDir . '/module/Application/test'),

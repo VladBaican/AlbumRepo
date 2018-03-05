@@ -1,6 +1,5 @@
 <?php
 
-
 use Phinx\Migration\AbstractMigration;
 
 class Init extends AbstractMigration
@@ -29,7 +28,7 @@ class Init extends AbstractMigration
     public function change()
     {
         $artists = $this->table('artists');
-        $artists->addColumn('name', 'string', ['length'=>100])
+        $artists->addColumn('name', 'string', ['length' => 100])
             ->addColumn('birthday', 'date')
             ->addColumn('isMarried', 'boolean')
             ->addColumn('numberOfAlbums', 'integer')
@@ -37,7 +36,7 @@ class Init extends AbstractMigration
 
         $album = $this->table('album');
         $album->addColumn('artistId', 'integer')
-            ->addColumn('title', 'string', ['length'=>100])
+            ->addColumn('title', 'string', ['length' => 100])
             ->addForeignKey(
                 'artistId',
                 'artists',
@@ -47,8 +46,13 @@ class Init extends AbstractMigration
             ->create();
 
         $posts = $this->table('posts');
-        $posts->addColumn('title', 'string', ['length'=>100])
-            ->addColumn('text', 'string', ['length'=>500])
+        $posts->addColumn('title', 'string', ['length' => 100])
+            ->addColumn('text', 'string', ['length' => 500])
+            ->create();
+
+        $users = $this->table('users');
+        $users->addColumn('username', 'string', ['length' => 50])
+            ->addColumn('password', 'string', ['length' => 32])
             ->create();
     }
 }

@@ -84,6 +84,7 @@ class ComposerStaticInit7243f8552b2f19be0c8f01602668832c
         ),
         'A' => 
         array (
+            'Authentication\\' => 15,
             'Artist\\' => 7,
             'Application\\' => 12,
             'ApplicationTest\\' => 16,
@@ -270,6 +271,10 @@ class ComposerStaticInit7243f8552b2f19be0c8f01602668832c
         'Blog\\' => 
         array (
             0 => __DIR__ . '/../..' . '/module/Blog/src',
+        ),
+        'Authentication\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/module/Authentication/src',
         ),
         'Artist\\' => 
         array (

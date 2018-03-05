@@ -15,8 +15,11 @@ class ArtistControllerFactory implements FactoryInterface
      * @param null|array $options
      * @return ArtistController
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
-    {
+    public function __invoke(
+        ContainerInterface $container,
+        $requestedName,
+        array $options = null
+    ) {
         $formManager = $container->get('FormElementManager');
         return new ArtistController(
             $formManager->get(ArtistForm::class),

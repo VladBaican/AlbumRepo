@@ -23,5 +23,6 @@ return [
     'Application',
     'Album',
     'Blog',
-    'Artist'
+    'Artist',
+    'Authentication'
 ];

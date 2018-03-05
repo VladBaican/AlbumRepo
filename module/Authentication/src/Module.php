@@ -1,5 +1,5 @@
 <?php
-namespace Artist;
+namespace Authentication;
 
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 
