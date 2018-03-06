@@ -10,16 +10,38 @@ namespace Application\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Application\Services\TranslatorService;
+use \Authentication\Services\AuthenticationService;
 
+/**
+ * Index Controller
+ */
 class IndexController extends AbstractActionController
 {
-    public function indexAction()
+    protected $authentication;
+
+    /**
+     * Constructor.
+     *
+     * @param AuthenticationService $authentication
+     */
+    public function __construct(AuthenticationService $authentication)
     {
-        return new ViewModel();
+        $this->authentication = $authentication;
     }
 
-    public function loginAction()
+    /**
+     * Index Action.
+     *
+     * @return ViewModel
+     */
+    public function indexAction()
     {
-        return $this->redirect()->toRoute('authentication');
+        $identity = $this->authentication->hasIdentity();
+
+        if (! $identity) {
+            return $this->redirect()->toRoute('authentication');
+        }
+
+        return new ViewModel();
     }
 }

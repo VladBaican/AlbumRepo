@@ -20,7 +20,7 @@ return [
                     'route'    => '/',
                     'defaults' => [
                         'controller' => Controller\IndexController::class,
-                        'action'     => 'login',
+                        'action'     => 'index',
                     ],
                 ],
             ],
@@ -38,7 +38,13 @@ return [
     ],
     'controllers' => [
         'factories' => [
-            Controller\IndexController::class => InvokableFactory::class
+            Controller\IndexController::class => function ($container) {
+                return new Controller\IndexController(
+                    $container->get(
+                        \Authentication\Services\AuthenticationService::class
+                    )
+                );
+            }
         ],
     ],
     'view_manager' => [

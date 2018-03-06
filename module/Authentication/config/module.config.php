@@ -9,7 +9,9 @@ return [
             Model\AuthenticationAdapter::class =>
                 Factory\AuthenticationAdapterFactory::class,
             Services\AuthenticationService::class =>
-                Factory\AuthenticationServiceFactory::class
+                Factory\AuthenticationServiceFactory::class,
+            Model\Session::class =>
+                Factory\SessionFactory::class
         ],
     ],
     'controllers' => [
@@ -28,6 +30,27 @@ return [
                         'action'     => 'index',
                     ],
                 ],
+                'may_terminate' => true,
+                'child_routes'  => [
+                    'login' => [
+                        'type' => Literal::class,
+                        'options' => [
+                            'route'    => '/login',
+                            'defaults' => [
+                                'action'     => 'login',
+                            ],
+                        ],
+                    ],
+                    'register' => [
+                        'type' => Literal::class,
+                        'options' => [
+                            'route'    => '/register',
+                            'defaults' => [
+                                'action'     => 'register',
+                            ]
+                        ]
+                    ],
+                ]
             ]
         ]
     ],

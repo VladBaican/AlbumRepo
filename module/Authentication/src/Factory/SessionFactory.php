@@ -3,7 +3,7 @@ namespace Authentication\Factory;
 
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
-use Model\Session;
+use Authentication\Model\Session;
 
 /**
  * Session Factory

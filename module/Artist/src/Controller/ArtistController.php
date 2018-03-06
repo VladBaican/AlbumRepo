@@ -81,8 +81,6 @@ class ArtistController extends AbstractActionController
         try {
             $artist = $this->repository->insertArtist($artist);
         } catch (\Exception $ex) {
-            // An exception occurred; we may want to log this later and/or
-            // report it to the user. For now, we'll just re-throw.
             $alertMessage = new AlertMessage(
                 AlertMessage::TYPE_WARNING,
                 'Something went wrong!'

@@ -5,6 +5,7 @@ use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
 use Authentication\Services\AuthenticationService;
 use Authentication\Model\AuthenticationAdapter;
+use Authentication\Model\Session;
 
 /**
  * Authentication Service Factory
@@ -22,9 +23,8 @@ class AuthenticationServiceFactory implements FactoryInterface
         $requestedName,
         array $options = null
     ) {
-        $dadd = $container->get(\Zend\Db\Adapter\Adapter::class);
         return new AuthenticationService(
-            $dadd,
+            $container->get(Session::class),
             $container->get(AuthenticationAdapter::class)
         );
     }

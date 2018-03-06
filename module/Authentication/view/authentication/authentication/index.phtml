@@ -11,20 +11,40 @@
         ->prependFile($this->basePath('js/jquery-3.1.0.min.js'))
 ?>
 
+<?php
+$username = $form->get('username');
+$username->setAttribute('placeholder', 'username');
+
+$password = $form->get('password');
+$password->setAttribute('placeholder', 'password');
+
+$form->prepare();
+?>
+
 <div class="login-page">
-  <div class="form">
-    <form class="register-form">
-      <input type="text" placeholder="name"/>
-      <input type="password" placeholder="password"/>
-      <!-- <input type="text" placeholder="email address"/> -->
-      <button>create</button>
-      <p class="message">Already registered? <a href="#">Sign In</a></p>
-    </form>
-    <form class="login-form">
-      <input type="text" placeholder="username"/>
-      <input type="password" placeholder="password"/>
-      <button>login</button>
-      <p class="message">Not registered? <a href="#">Create an account</a></p>
-    </form>
-  </div>
+    <div class="form">
+
+        <form class="register-form" method="POST" name="register" action="/authentication/register">
+            <?= $this->formElement($username) ?>
+            <?= $this->formElement($password) ?>
+            <button>create</button>
+            <p class="message">Already registered? <a href="#">Sign In</a></p>
+        </form>
+        <form class="login-form" method="POST" name="login" action="/authentication/login">
+            <?= $this->formElement($username) ?>
+            <?= $this->formElement($password) ?>
+            <div class="message-box">
+                <?php foreach ($this->flashMessenger()->getMessages() as $message) : ?>
+                    <div style="color:red; padding-bottom:10px;">
+                        <?= $message->getContent() ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            <button>login</button>
+            <p class="message">Not registered? <a href="#">Create an account</a></p>
+        </form>
+
+    </div>
 </div>
+
+<?= $this->form()->closeTag() ?>

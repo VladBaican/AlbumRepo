@@ -5,6 +5,8 @@ use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
 use \Authentication\Controller\AuthenticationController;
 use \Authentication\Model\AuthenticationAdapter;
+use \Authentication\Form\AuthenticationForm;
+use \Authentication\Services\AuthenticationService;
 
 /**
  * Authentication Service Factory
@@ -22,8 +24,10 @@ class AuthenticationControllerFactory implements FactoryInterface
         $requestedName,
         array $options = null
     ) {
+        $formManager = $container->get('FormElementManager');
         return new AuthenticationController(
-            $container->get(AuthenticationAdapter::class)
+            $formManager->get(AuthenticationForm::class),
+            $container->get(AuthenticationService::class)
         );
     }
 }
