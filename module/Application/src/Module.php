@@ -22,19 +22,6 @@ class Module
 
         $translator = $serviceManager->get('translator');
         $viewModel->translator = $translator;
-
-        //$this->initTranslator($event);
-    }
-
-    protected function initTranslator(MvcEvent $event)
-    {
-        $serviceManager = $event->getApplication()->getServiceManager();
-
-        // Zend\Session\Container
-        $session = new Container('language');
-
-        $translator = $serviceManager->get('translator');
-        $translator->setLocale($session->language);
     }
 
     public function getConfig()

@@ -23,26 +23,30 @@
             )
             ->prependStylesheet($this->basePath('css/bootstrap-theme.min.css'))
             ->prependStylesheet($this->basePath('css/bootstrap.min.css'))
+            ->prependStylesheet('css/alert-message.css')
+            ->prependStylesheet('css/language-select.css')
+            ->prependStylesheet('css/authentication/logout-button.css')
         ?>
-        <?= $this->headLink()->prependStylesheet('css/alert-message.css') ?>
-        <?= $this->headLink()->prependStylesheet('css/language-select.css') ?>
 
         <!-- Scripts -->
         <?= $this->headScript()
-            ->prependFile($this->basePath('js/bootstrap.min.js'))
+            ->prependFile($this->basePath('js/authentication/logout-button.js'))
+            ->prependFile($this->basePath('js/alert-message.js'))
+            ->prependFile($this->basePath('js/language-select.js'))
             ->prependFile('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.2/js/bootstrap-select.min.js')
+            ->prependFile($this->basePath('js/bootstrap.min.js'))
             ->prependFile($this->basePath('js/jquery-3.1.0.min.js'))
         ?>
-        <?= $this->headScript()->prependFile($this->basePath('js/alert-message.js')) ?>
-        <?= $this->headScript()->prependFile($this->basePath('js/language-select.js')) ?>
     </head>
     <body>
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="container">
-                <?= $this->navigation('navigation')
-                        ->breadcrumbs()
-                        ->setMinDepth(0)
-                        ->setPartial('partial/breadcrumb') ?>
+                <div class="breadcrumb-container">
+                    <?= $this->navigation('navigation')
+                            ->breadcrumbs()
+                            ->setMinDepth(0)
+                            ->setPartial('partial/breadcrumb') ?>
+                </div>
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="icon-bar"></span>
@@ -69,6 +73,7 @@
                             Deutsche
                         </option>
                     </select>
+                    <button class="logoutButton btn btn-danger logout-button">Log out</button>
                 </div>
             </div>
         </nav>

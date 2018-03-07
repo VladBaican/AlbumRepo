@@ -53,7 +53,7 @@ class ZendDbSqlRepository implements ArtistRepositoryInterface
         $statement = $sql->prepareStatementForSqlObject($select);
         $result    = $statement->execute();
 
-        if (!$result instanceof ResultInterface || !$result->isQueryResult()) {
+        if (! $result instanceof ResultInterface || ! $result->isQueryResult()) {
             return [];
         }
 
@@ -78,7 +78,7 @@ class ZendDbSqlRepository implements ArtistRepositoryInterface
         $statement = $sql->prepareStatementForSqlObject($select);
         $result    = $statement->execute();
 
-        if (!$result instanceof ResultInterface || ! $result->isQueryResult()) {
+        if (! $result instanceof ResultInterface || ! $result->isQueryResult()) {
             throw new RuntimeException(sprintf(
                 'Failed retrieving artist with identifier "%s"; unknown database error.',
                 $id
@@ -89,7 +89,7 @@ class ZendDbSqlRepository implements ArtistRepositoryInterface
         $resultSet->initialize($result);
         $artist = $resultSet->current();
 
-        if (!$artist) {
+        if (! $artist) {
             throw new InvalidArgumentException(sprintf(
                 'Artist with identifier "%s" not found.',
                 $id
@@ -114,7 +114,7 @@ class ZendDbSqlRepository implements ArtistRepositoryInterface
         $statement = $sql->prepareStatementForSqlObject($insert);
         $result = $statement->execute();
 
-        if (!$result instanceof ResultInterface) {
+        if (! $result instanceof ResultInterface) {
             throw new RuntimeException(
                 'Database error occurred during blog post insert operation'
             );
@@ -133,7 +133,7 @@ class ZendDbSqlRepository implements ArtistRepositoryInterface
 
     public function deleteArtist(Artist $artist)
     {
-        if (!$artist->getId()) {
+        if (! $artist->getId()) {
             throw new RuntimeException('Cannot update artist; missing identifier');
         }
 
@@ -144,7 +144,7 @@ class ZendDbSqlRepository implements ArtistRepositoryInterface
         $statement = $sql->prepareStatementForSqlObject($delete);
         $result = $statement->execute();
 
-        if (!$result instanceof ResultInterface) {
+        if (! $result instanceof ResultInterface) {
             return false;
         }
 
@@ -153,7 +153,7 @@ class ZendDbSqlRepository implements ArtistRepositoryInterface
 
     public function updateArtist(Artist $artist)
     {
-        if (!$artist->getId()) {
+        if (! $artist->getId()) {
             throw new RuntimeException('Cannot update artist; missing identifier');
         }
 
@@ -170,7 +170,7 @@ class ZendDbSqlRepository implements ArtistRepositoryInterface
         $statement = $sql->prepareStatementForSqlObject($update);
         $result = $statement->execute();
 
-        if (!$result instanceof ResultInterface) {
+        if (! $result instanceof ResultInterface) {
             throw new RuntimeException(
                 'Database error occurred during artist update operation'
             );

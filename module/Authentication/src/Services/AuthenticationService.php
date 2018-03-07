@@ -4,6 +4,7 @@ namespace Authentication\Services;
 use Zend\Authentication\AuthenticationService as ZendAuthenticationService;
 use Authentication\Model\AuthenticationAdapter;
 use Zend\Authentication\Storage\StorageInterface;
+use Zend\InputFilter\InputFilter;
 
 /**
  * Authentication Service
@@ -18,7 +19,12 @@ class AuthenticationService extends ZendAuthenticationService
     /**
      * @const LOGIN_SUCCES
      */
-    const LOGIN_SUCCES = 1;
+    const LOGIN_SUCCESS = 1;
+
+    /**
+     * @var InputFilter
+     */
+    protected $inputFilter;
 
     /**
      * Constructor.
@@ -31,5 +37,32 @@ class AuthenticationService extends ZendAuthenticationService
         AuthenticationAdapter $adapter = null
     ) {
         parent::__construct($storage, $adapter);
+    }
+
+    /**
+     * Get input filler.
+     *
+     * @return [type] [description]
+     */
+    public function getInputFilter()
+    {
+        if ($this->inputFilter) {
+            return $this->inputFilter;
+        }
+
+        $inputFilter = new InputFilter();
+
+        $inputFilter->add([
+            'name' => 'username',
+            'required' => true,
+        ]);
+
+        $inputFilter->add([
+            'name' => 'password',
+            'required' => true,
+        ]);
+
+        $this->inputFilter = $inputFilter;
+        return $this->inputFilter;
     }
 }

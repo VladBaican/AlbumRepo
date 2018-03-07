@@ -11,7 +11,11 @@ return [
             Services\AuthenticationService::class =>
                 Factory\AuthenticationServiceFactory::class,
             Model\Session::class =>
-                Factory\SessionFactory::class
+                Factory\SessionFactory::class,
+            Model\UserTable::class =>
+                Factory\UserTableFactory::class,
+            Model\AuthenticationValidator::class =>
+                Factory\AuthenticationValidatorFactory::class
         ],
     ],
     'controllers' => [
@@ -50,6 +54,15 @@ return [
                             ]
                         ]
                     ],
+                    'logout' => [
+                        'type' => Literal::class,
+                        'options' => [
+                            'route'    => '/logout',
+                            'defaults' => [
+                                'action'     => 'logout',
+                            ],
+                        ],
+                    ]
                 ]
             ]
         ]

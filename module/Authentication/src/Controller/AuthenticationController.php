@@ -6,6 +6,8 @@ use Zend\View\Model\ViewModel;
 use \Application\Model\AlertMessage;
 use Authentication\Services\AuthenticationService;
 use Authentication\Form\AuthenticationForm;
+use Authentication\Model\AuthenticationValidator;
+use Authentication\Model\UserTable;
 
 /**
  * Authentication Controller
@@ -23,17 +25,25 @@ class AuthenticationController extends AbstractActionController
     protected $authentication;
 
     /**
+     * @var UserTable
+     */
+    protected $userTable;
+
+    /**
      * Constructor.
      *
      * @param AuthenticationForm    $form
      * @param AuthenticationService $authentication
+     * @param UserTable             $userTable
      */
     public function __construct(
         AuthenticationForm $form,
-        AuthenticationService $authentication
+        AuthenticationService $authentication,
+        UserTable $userTable
     ) {
         $this->form = $form;
         $this->authentication = $authentication;
+        $this->userTable = $userTable;
     }
 
     /**
@@ -61,8 +71,15 @@ class AuthenticationController extends AbstractActionController
         }
 
         $this->form->setData($request->getPost());
+        $this->form->setInputFilter($this->authentication->getInputFilter());
 
         if (! $this->form->isValid()) {
+            $alertMessage = new AlertMessage(
+                AlertMessage::TYPE_WARNING,
+                'Empty credentials not allowed!'
+            );
+            $this->flashMessenger()->addMessage($alertMessage);
+
             return $this->redirect()->toRoute('authentication');
         }
 
@@ -77,7 +94,7 @@ class AuthenticationController extends AbstractActionController
         // Perform the authentication query, saving the result
         $result = $this->authentication->authenticate();
 
-        if ($this->authentication::LOGIN_FAIL == $result->getCode()) {
+        if (AuthenticationService::LOGIN_SUCCESS != $result->getCode()) {
             $alertMessage = new AlertMessage(
                 AlertMessage::TYPE_DANGER,
                 'Authentication failed!'
@@ -110,21 +127,39 @@ class AuthenticationController extends AbstractActionController
         }
 
         $this->form->setData($request->getPost());
+        $this->form->setInputFilter($this->authentication->getInputFilter());
 
         if (! $this->form->isValid()) {
-            return $this->redirect()->toRoute('home');
+            $alertMessage = new AlertMessage(
+                AlertMessage::TYPE_WARNING,
+                'Empty credentials not allowed!'
+            );
+            $this->flashMessenger()->addMessage($alertMessage);
+
+            return $this->redirect()->toRoute('authentication');
         }
 
         $credentials = $this->form->getData();
 
-        // Set the input credential values:
-        $this->authentication
-            ->setIdentity($credentials['username'])
-            ->setCredential($credentials['password']);
+        $this->userTable->saveUser($credentials);
 
-        // Perform the authentication query, saving the result
-        $result = $this->authentication->authenticate();
+        $alertMessage = new AlertMessage(
+            AlertMessage::TYPE_SUCCESS,
+            'Account registered!'
+        );
+        $this->flashMessenger()->addMessage($alertMessage);
 
-        return $this->redirect()->toRoute('album');
+        return $this->redirect()->toRoute('authentication');
+    }
+
+    /**
+     * Logout Action.
+     *
+     * @return Response
+     */
+    public function logoutAction()
+    {
+        $this->authentication->clearIdentity();
+        return $this->redirect()->toRoute('authentication');
     }
 }

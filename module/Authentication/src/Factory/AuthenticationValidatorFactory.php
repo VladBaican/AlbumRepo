@@ -3,17 +3,14 @@ namespace Authentication\Factory;
 
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
-use Authentication\Controller\AuthenticationController;
-use Authentication\Model\AuthenticationAdapter;
-use Authentication\Form\AuthenticationForm;
-use Authentication\Services\AuthenticationService;
 use Authentication\Model\AuthenticationValidator;
-use Authentication\Model\UserTable;
+use Authentication\Model\AuthenticationAdapter;
+use Authentication\Services\AuthenticationService;
 
 /**
- * Authentication Service Factory
+ * Authentication Validator Factory
  */
-class AuthenticationControllerFactory implements FactoryInterface
+class AuthenticationValidatorFactory implements FactoryInterface
 {
     /**
      * @param  ContainerInterface       $container
@@ -26,11 +23,11 @@ class AuthenticationControllerFactory implements FactoryInterface
         $requestedName,
         array $options = null
     ) {
-        $formManager = $container->get('FormElementManager');
-        return new AuthenticationController(
-            $formManager->get(AuthenticationForm::class),
-            $container->get(AuthenticationService::class),
-            $container->get(UserTable::class)
-        );
+        return new AuthenticationValidator([
+            'adapter' => $container->get(AuthenticationAdapter::class),
+            'identity' => AuthenticationAdapter::IDENTITY_COLUMN,
+            'credential' => AuthenticationAdapter::CREDENTIAL_COLUMN,
+            'service' => $container->get(AuthenticationService::class)
+        ]);
     }
 }

@@ -1,16 +1,3 @@
-<?= $this->headLink([
-    'rel' => 'shortcut icon',
-    'type' => 'image/vnd.microsoft.icon',
-    'href' => $this->basePath() . '/img/favicon.ico'
-])
-    ->prependStylesheet($this->basePath('css/authentication/login.css'))
-?>
-
-<?= $this->headScript()
-        ->prependFile($this->basePath('js/authentication/login.js'))
-        ->prependFile($this->basePath('js/jquery-3.1.0.min.js'))
-?>
-
 <?php
 $username = $form->get('username');
 $username->setAttribute('placeholder', 'username');
@@ -27,20 +14,13 @@ $form->prepare();
         <form class="register-form" method="POST" name="register" action="/authentication/register">
             <?= $this->formElement($username) ?>
             <?= $this->formElement($password) ?>
-            <button>create</button>
+            <button type="submit">create</button>
             <p class="message">Already registered? <a href="#">Sign In</a></p>
         </form>
         <form class="login-form" method="POST" name="login" action="/authentication/login">
             <?= $this->formElement($username) ?>
             <?= $this->formElement($password) ?>
-            <div class="message-box">
-                <?php foreach ($this->flashMessenger()->getMessages() as $message) : ?>
-                    <div style="color:red; padding-bottom:10px;">
-                        <?= $message->getContent() ?>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-            <button>login</button>
+            <button type="submit">login</button>
             <p class="message">Not registered? <a href="#">Create an account</a></p>
         </form>
 

@@ -1,18 +1,31 @@
 <?= $this->doctype() ?>
-
 <html lang="en">
     <head>
-        <meta charset="utf-8">
-        <?= $this->headTitle('ZF Skeleton Application')->setSeparator(' - ')->setAutoEscape(false) ?>
+        <?= $this->headLink()
+            ->prependStylesheet($this->basePath('css/style.css'))
+            ->prependStylesheet($this->basePath('/css/bootstrap.min.css'))
+            ->prependStylesheet($this->basePath('css/bootstrap-theme.min.css'))
+            ->prependStylesheet('css/alert-message.css')
+            ->prependStylesheet($this->basePath('css/authentication/login.css'))
+            ?>
 
-        <?= $this->headMeta()
-            ->appendName('viewport', 'width=device-width, initial-scale=1.0')
-            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+        <?= $this->headScript()
+            ->prependFile($this->basePath('js/authentication/login.js'))
+            ->prependFile($this->basePath('js/alert-message.js'))
+            ->prependFile($this->basePath('js/bootstrap.min.js'))
+            ->prependFile($this->basePath('js/jquery-3.1.0.min.js'))
         ?>
-
     </head>
     <body>
         <div class="container">
+            <div class="message-box">
+                <?php foreach ($this->flashMessenger()->getMessages() as $message) : ?>
+                    <div class="alert-<?= $message->getType() ?>">
+                        <?= $message->getContent() ?>
+                        <button class="alertMessageCloseButton btn-default btn-alert-close">x</button>
+                    </div>
+                <?php endforeach; ?>
+            </div>
             <?= $this->content ?>
         </div>
         <?= $this->inlineScript() ?>
