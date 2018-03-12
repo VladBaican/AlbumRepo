@@ -4,10 +4,11 @@ namespace Authentication\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use \Application\Model\AlertMessage;
+use \Application\Services\AclService;
 use Authentication\Services\AuthenticationService;
 use Authentication\Form\AuthenticationForm;
 use Authentication\Model\AuthenticationValidator;
-use Authentication\Model\UserTable;
+use Zend\Permissions\Acl\Resource\ResourceInterface;
 
 /**
  * Authentication Controller
@@ -30,20 +31,24 @@ class AuthenticationController extends AbstractActionController
     protected $userTable;
 
     /**
+     * @var AclService
+     */
+    protected $acl;
+
+    /**
      * Constructor.
      *
      * @param AuthenticationForm    $form
      * @param AuthenticationService $authentication
-     * @param UserTable             $userTable
      */
     public function __construct(
         AuthenticationForm $form,
         AuthenticationService $authentication,
-        UserTable $userTable
+        AclService $acl
     ) {
         $this->form = $form;
         $this->authentication = $authentication;
-        $this->userTable = $userTable;
+        $this->acl = $acl;
     }
 
     /**
@@ -53,6 +58,10 @@ class AuthenticationController extends AbstractActionController
      */
     public function indexAction()
     {
+        if (AclService::GUEST_ROLE != $this->acl->getUserRole()) {
+            return $this->redirect()->toRoute('home');
+        }
+
         $this->layout()->setTemplate('layout/emptyLayout.phtml');
         return new ViewModel(['form' => $this->form]);
     }
@@ -110,7 +119,7 @@ class AuthenticationController extends AbstractActionController
         );
         $this->flashMessenger()->addMessage($alertMessage);
 
-        return $this->redirect()->toRoute('album');
+        return $this->redirect()->toRoute('home');
     }
 
     /**
@@ -141,7 +150,7 @@ class AuthenticationController extends AbstractActionController
 
         $credentials = $this->form->getData();
 
-        $this->userTable->saveUser($credentials);
+        $this->authentication->saveUser($credentials);
 
         $alertMessage = new AlertMessage(
             AlertMessage::TYPE_SUCCESS,
@@ -160,6 +169,6 @@ class AuthenticationController extends AbstractActionController
     public function logoutAction()
     {
         $this->authentication->clearIdentity();
-        return $this->redirect()->toRoute('authentication');
+        $this->redirect()->toRoute('authentication');
     }
 }

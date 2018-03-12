@@ -8,7 +8,6 @@ use Authentication\Model\AuthenticationAdapter;
 use Authentication\Form\AuthenticationForm;
 use Authentication\Services\AuthenticationService;
 use Authentication\Model\AuthenticationValidator;
-use Authentication\Model\UserTable;
 
 /**
  * Authentication Service Factory
@@ -30,7 +29,7 @@ class AuthenticationControllerFactory implements FactoryInterface
         return new AuthenticationController(
             $formManager->get(AuthenticationForm::class),
             $container->get(AuthenticationService::class),
-            $container->get(UserTable::class)
+            $container->get('acl')
         );
     }
 }

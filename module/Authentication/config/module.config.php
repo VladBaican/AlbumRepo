@@ -14,6 +14,8 @@ return [
                 Factory\SessionFactory::class,
             Model\UserTable::class =>
                 Factory\UserTableFactory::class,
+            Model\UserRoleTable::class =>
+                Factory\UserRoleTableFactory::class,
             Model\AuthenticationValidator::class =>
                 Factory\AuthenticationValidatorFactory::class
         ],

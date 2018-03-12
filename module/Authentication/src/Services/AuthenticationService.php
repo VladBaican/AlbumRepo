@@ -5,6 +5,8 @@ use Zend\Authentication\AuthenticationService as ZendAuthenticationService;
 use Authentication\Model\AuthenticationAdapter;
 use Zend\Authentication\Storage\StorageInterface;
 use Zend\InputFilter\InputFilter;
+use Authentication\Model\UserTable;
+use Authentication\Model\UserRoleTable;
 
 /**
  * Authentication Service
@@ -27,16 +29,32 @@ class AuthenticationService extends ZendAuthenticationService
     protected $inputFilter;
 
     /**
+     * @var UserTable
+     */
+    protected $userTable;
+
+    /**
+     * @var UsersRolesTable
+     */
+    protected $userRoleTable;
+
+    /**
      * Constructor.
      *
-     * @param  StorageInterface $storage
-     * @param  AuthenticationAdapter $adapter
+     * @param StorageInterface      $storage
+     * @param AuthenticationAdapter $adapter
+     * @param UserTable             $userTable
+     * @param UserRoleTable         $userRoleTable
      */
     public function __construct(
         StorageInterface $storage = null,
-        AuthenticationAdapter $adapter = null
+        AuthenticationAdapter $adapter = null,
+        UserTable $userTable,
+        UserRoleTable $userRoleTable
     ) {
         parent::__construct($storage, $adapter);
+        $this->userTable = $userTable;
+        $this->userRoleTable = $userRoleTable;
     }
 
     /**
@@ -64,5 +82,30 @@ class AuthenticationService extends ZendAuthenticationService
 
         $this->inputFilter = $inputFilter;
         return $this->inputFilter;
+    }
+
+    /**
+     * Get roles for user.
+     *
+     * @param  string $username
+     * @return array
+     */
+    public function getRoles($username)
+    {
+        return $this->userTable->getRoles($username);
+    }
+
+    /**
+     * Add a new user.
+     *
+     * @param  array  $credentials
+     */
+    public function saveUser($credentials)
+    {
+        $id = $this->userTable->saveUser($credentials);
+        $this->userRoleTable->saveUserRoles([
+            'userId' => $id,
+            'roleId' => 1
+        ]);
     }
 }

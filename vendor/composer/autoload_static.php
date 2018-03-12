@@ -28,6 +28,7 @@ class ComposerStaticInit7243f8552b2f19be0c8f01602668832c
             'Zend\\Session\\' => 13,
             'Zend\\ServiceManager\\' => 20,
             'Zend\\Router\\' => 12,
+            'Zend\\Permissions\\Acl\\' => 21,
             'Zend\\Paginator\\' => 15,
             'Zend\\Navigation\\' => 16,
             'Zend\\Mvc\\Plugin\\FlashMessenger\\' => 31,
@@ -131,6 +132,10 @@ class ComposerStaticInit7243f8552b2f19be0c8f01602668832c
         'Zend\\Router\\' => 
         array (
             0 => __DIR__ . '/..' . '/zendframework/zend-router/src',
+        ),
+        'Zend\\Permissions\\Acl\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/zendframework/zend-permissions-acl/src',
         ),
         'Zend\\Paginator\\' => 
         array (

@@ -15,6 +15,7 @@ return array(
     'Zend\\Session\\' => array($vendorDir . '/zendframework/zend-session/src'),
     'Zend\\ServiceManager\\' => array($vendorDir . '/zendframework/zend-servicemanager/src'),
     'Zend\\Router\\' => array($vendorDir . '/zendframework/zend-router/src'),
+    'Zend\\Permissions\\Acl\\' => array($vendorDir . '/zendframework/zend-permissions-acl/src'),
     'Zend\\Paginator\\' => array($vendorDir . '/zendframework/zend-paginator/src'),
     'Zend\\Navigation\\' => array($vendorDir . '/zendframework/zend-navigation/src'),
     'Zend\\Mvc\\Plugin\\FlashMessenger\\' => array($vendorDir . '/zendframework/zend-mvc-plugin-flashmessenger/src'),

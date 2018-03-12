@@ -40,9 +40,8 @@ return [
         'factories' => [
             Controller\IndexController::class => function ($container) {
                 return new Controller\IndexController(
-                    $container->get(
-                        \Authentication\Services\AuthenticationService::class
-                    )
+                    $container->get('acl'),
+                    $container->get(\Authentication\Services\AuthenticationService::class)
                 );
             }
         ],
@@ -164,6 +163,11 @@ return [
                 );
 
                 return $translatorService;
+            },
+            'acl' => function ($container) {
+                return new Services\AclService(
+                    new \Zend\Permissions\Acl\Acl()
+                );
             }
         ],
     ]

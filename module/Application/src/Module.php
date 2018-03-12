@@ -22,6 +22,40 @@ class Module
 
         $translator = $serviceManager->get('translator');
         $viewModel->translator = $translator;
+
+        $aclService = $serviceManager->get('acl');
+        $authentication = $serviceManager
+            ->get(\Authentication\Services\AuthenticationService::class);
+        $requestUri = $serviceManager->get('request')->getRequestUri();
+
+        $this->checkUserPermission(
+            $serviceManager,
+            $aclService,
+            $authentication,
+            $requestUri
+        );
+    }
+
+    public function checkUserPermission(
+        $serviceManager,
+        $aclService,
+        $authentication,
+        $requestUri
+    ) {
+        $identity = $authentication->getIdentity();
+
+        $roles = $authentication->getRoles($identity);
+
+        $aclService->setUserRoles($roles);
+
+        $module = explode('/', $requestUri)[1];
+        $isAllowed = $aclService->isAllowed($module);
+
+        if (! $isAllowed) {
+            $response = $serviceManager->get('response');
+            $response->getHeaders()->addHeaderLine('Location', 'authentication');
+            $response->setStatusCode(302);
+        }
     }
 
     public function getConfig()

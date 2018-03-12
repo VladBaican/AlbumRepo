@@ -54,5 +54,26 @@ class Init extends AbstractMigration
         $users->addColumn('username', 'string', ['length' => 50])
             ->addColumn('password', 'string', ['length' => 32])
             ->create();
+
+        $roles = $this->table('roles');
+        $roles->addColumn('name', 'string', ['length' => 32])
+            ->create();
+
+        $usersRoles = $this->table('usersRoles');
+        $usersRoles->addColumn('userId', 'integer')
+            ->addColumn('roleId', 'integer')
+            ->addForeignKey(
+                'userId',
+                'users',
+                ['id'],
+                ['constraint' => 'user_foreign_key']
+            )
+            ->addForeignKey(
+                'roleId',
+                'roles',
+                ['id'],
+                ['constraint' => 'role_foreign_key']
+            )
+            ->create();
     }
 }

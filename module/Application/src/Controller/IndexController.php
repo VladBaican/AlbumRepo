@@ -11,12 +11,22 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Application\Services\TranslatorService;
 use \Authentication\Services\AuthenticationService;
+use Zend\Permissions\Acl\Resource\ResourceInterface;
+use Application\Services\AclService;
 
 /**
  * Index Controller
  */
 class IndexController extends AbstractActionController
 {
+    /**
+     * @var AclService
+     */
+    protected $acl;
+
+    /**
+     * @var AuthenticationService
+     */
     protected $authentication;
 
     /**
@@ -24,8 +34,11 @@ class IndexController extends AbstractActionController
      *
      * @param AuthenticationService $authentication
      */
-    public function __construct(AuthenticationService $authentication)
-    {
+    public function __construct(
+        AclService $acl,
+        AuthenticationService $authentication
+    ) {
+        $this->acl = $acl;
         $this->authentication = $authentication;
     }
 
@@ -36,10 +49,10 @@ class IndexController extends AbstractActionController
      */
     public function indexAction()
     {
-        $identity = $this->authentication->hasIdentity();
-
-        if (! $identity) {
+        if (AclService::GUEST_ROLE == $this->acl->getUserRole()) {
             return $this->redirect()->toRoute('authentication');
         }
+
+        return new ViewModel();
     }
 }

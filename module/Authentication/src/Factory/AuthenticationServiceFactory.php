@@ -6,6 +6,8 @@ use Zend\ServiceManager\Factory\FactoryInterface;
 use Authentication\Services\AuthenticationService;
 use Authentication\Model\AuthenticationAdapter;
 use Authentication\Model\Session;
+use Authentication\Model\UserTable;
+use Authentication\Model\UserRoleTable;
 
 /**
  * Authentication Service Factory
@@ -25,7 +27,9 @@ class AuthenticationServiceFactory implements FactoryInterface
     ) {
         return new AuthenticationService(
             $container->get(Session::class),
-            $container->get(AuthenticationAdapter::class)
+            $container->get(AuthenticationAdapter::class),
+            $container->get(UserTable::class),
+            $container->get(UserRoleTable::class)
         );
     }
 }
