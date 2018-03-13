@@ -1,3 +1,6 @@
+<?php
+$adminMode = $this->layout()->getVariable('adminMode');
+?>
 <h1 style="margin-top:75px;">Blog</h1>
 
 <div class="list-group">
@@ -9,7 +12,12 @@
       </a>
     </h4>
 
-    <div class="btn-group" role="group" aria-label="Post actions">
+    <div
+    class="btn-group"
+    role="group"
+    aria-label="Post actions"
+    style="<?= null === $adminMode ? 'display:none' : '' ?>"
+    >
       <a class="btn btn-xs btn-default" href="<?= $this->url('blog/edit', ['id' => $post->getId()]) ?>">Edit</a>
       <a class="btn btn-xs btn-danger" href="<?= $this->url('blog/delete', ['id' => $post->getId()]) ?>">Delete</a>
     </div>
@@ -18,5 +26,11 @@
 </div>
 
 <div class="btn-group" role="group" aria-label="Post actions">
-  <a class="btn btn-primary" href="<?= $this->url('blog/add') ?>">Write new post</a>
+  <a
+    class="btn btn-primary"
+    href="<?= $this->url('blog/add') ?>"
+    style="<?= null === $adminMode ? 'display:none' : '' ?>"
+  >
+    Write new post
+  </a>
 </div>

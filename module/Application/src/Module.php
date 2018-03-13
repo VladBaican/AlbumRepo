@@ -34,6 +34,10 @@ class Module
             $authentication,
             $requestUri
         );
+
+        if (\Application\Services\AclService::ADMIN_ROLE === $aclService->getUserRole()) {
+            $viewModel->adminMode = true;
+        }
     }
 
     public function checkUserPermission(
@@ -48,12 +52,19 @@ class Module
 
         $aclService->setUserRoles($roles);
 
-        $module = explode('/', $requestUri)[1];
-        $isAllowed = $aclService->isAllowed($module);
+        $resource = explode('/', $requestUri);
+        $resource = array_slice($resource, 1);
+        1 === count($resource) ? array_push($resource, 'view') : null;
+
+        $isAllowed = call_user_func_array(
+            [$aclService, 'isAllowed'],
+            $resource
+        );
 
         if (! $isAllowed) {
             $response = $serviceManager->get('response');
-            $response->getHeaders()->addHeaderLine('Location', 'authentication');
+            $response->getHeaders()
+                ->addHeaderLine('Location', '/authentication');
             $response->setStatusCode(302);
         }
     }

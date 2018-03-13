@@ -145,7 +145,7 @@ return [
     'service_manager' => [
         'factories' => [
             'navigation' => Zend\Navigation\Service\DefaultNavigationFactory::class,
-            'event_manager' => function ($container) {
+            'album_event_manager' => function ($container) {
                 $eventManager = new \Zend\EventManager\EventManager();
 
                 $albumEventListener = new \Album\EventListener\AlbumEventListener(
@@ -153,6 +153,16 @@ return [
                     $container->get(\Artist\Service\ArtistService::class)
                 );
                 $albumEventListener->attach($eventManager);
+
+                return $eventManager;
+            },
+            'authentication_event_manager' => function ($container) {
+                $eventManager = new \Zend\EventManager\EventManager();
+
+                $authenticationEventListener = new \Authentication\EventListener\AuthenticationEventListener(
+                    $container->get(\Authentication\Model\UserRoleTable::class)
+                );
+                $authenticationEventListener->attach($eventManager);
 
                 return $eventManager;
             },

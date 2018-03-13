@@ -2,11 +2,12 @@
 namespace Authentication\Services;
 
 use Zend\Authentication\AuthenticationService as ZendAuthenticationService;
-use Authentication\Model\AuthenticationAdapter;
 use Zend\Authentication\Storage\StorageInterface;
 use Zend\InputFilter\InputFilter;
+use Zend\EventManager\EventManager;
+use Authentication\Model\AuthenticationAdapter;
 use Authentication\Model\UserTable;
-use Authentication\Model\UserRoleTable;
+use Authentication\Event\UserCreated;
 
 /**
  * Authentication Service
@@ -34,9 +35,9 @@ class AuthenticationService extends ZendAuthenticationService
     protected $userTable;
 
     /**
-     * @var UsersRolesTable
+     * @var EventManager
      */
-    protected $userRoleTable;
+    protected $eventManager;
 
     /**
      * Constructor.
@@ -44,17 +45,17 @@ class AuthenticationService extends ZendAuthenticationService
      * @param StorageInterface      $storage
      * @param AuthenticationAdapter $adapter
      * @param UserTable             $userTable
-     * @param UserRoleTable         $userRoleTable
+     * @param EventManager          $eventManager
      */
     public function __construct(
         StorageInterface $storage = null,
         AuthenticationAdapter $adapter = null,
         UserTable $userTable,
-        UserRoleTable $userRoleTable
+        EventManager $eventManager
     ) {
         parent::__construct($storage, $adapter);
         $this->userTable = $userTable;
-        $this->userRoleTable = $userRoleTable;
+        $this->eventManager = $eventManager;
     }
 
     /**
@@ -103,9 +104,8 @@ class AuthenticationService extends ZendAuthenticationService
     public function saveUser($credentials)
     {
         $id = $this->userTable->saveUser($credentials);
-        $this->userRoleTable->saveUserRoles([
-            'userId' => $id,
-            'roleId' => 1
-        ]);
+        $this->eventManager->triggerEvent(
+            new UserCreated(null, $this, ['userId' => $id])
+        );
     }
 }

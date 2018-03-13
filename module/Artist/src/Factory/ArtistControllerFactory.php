@@ -24,7 +24,7 @@ class ArtistControllerFactory implements FactoryInterface
         return new ArtistController(
             $formManager->get(ArtistForm::class),
             $container->get(ArtistRepositoryInterface::class),
-            $container->get('event_manager')
+            $container->get('album_event_manager')
         );
     }
 }

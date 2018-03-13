@@ -23,6 +23,11 @@ class AclService
     const USER_ROLE = 'user';
 
     /**
+     * @const ADMIN_ROLE
+     */
+    const ADMIN_ROLE = 'admin';
+
+    /**
      * @var string
      */
     protected $currentUserRole = self::GUEST_ROLE;
@@ -40,53 +45,77 @@ class AclService
     public function __construct(Acl $acl)
     {
         $this->acl = $acl;
-        $this->registerRoles();
-        $this->registerResources();
+        $this
+            ->registerRoles()
+            ->registerResources()
+            ->registerPermissions();
     }
 
     /**
-     * Register the application roles;
+     * Register the application's roles.
+     *
+     * @return AclService
      */
     public function registerRoles()
     {
         $this->acl->addRole(new Role(self::GUEST_ROLE));
         $this->acl->addRole(new Role(self::USER_ROLE));
+        $this->acl->addRole(new Role(self::ADMIN_ROLE));
+
+        return $this;
     }
 
     /**
-     * Register the application resources;
+     * Register the application's resources.
+     *
+     * @return AclService
      */
     public function registerResources()
     {
         $this->acl->addResource(new Resource(''));
         $this->acl->addResource(new Resource('authentication'));
         $this->acl->addResource(new Resource('album'));
+        $this->acl->addResource(new Resource('add'), 'album');
         $this->acl->addResource(new Resource('blog'));
         $this->acl->addResource(new Resource('artist'));
 
+        return $this;
+    }
+
+    /**
+     * Register the application's permisions.
+     *
+     * @return AclService
+     */
+    public function registerPermissions()
+    {
         $this->acl->allow(self::GUEST_ROLE, 'authentication');
         $this->acl->allow(self::GUEST_ROLE, '');
-        $this->acl->deny(self::GUEST_ROLE, 'album');
-        $this->acl->deny(self::GUEST_ROLE, 'blog');
-        $this->acl->deny(self::GUEST_ROLE, 'artist');
 
         $this->acl->allow(self::USER_ROLE, 'album');
         $this->acl->allow(self::USER_ROLE, 'blog');
         $this->acl->allow(self::USER_ROLE, 'artist');
         $this->acl->allow(self::USER_ROLE, '');
         $this->acl->allow(self::USER_ROLE, 'authentication');
+        $this->acl->deny(self::USER_ROLE, null, ['add', 'delete', 'edit']);
+        $this->acl->allow(self::USER_ROLE, null, 'view');
+
+        $this->acl->allow(self::ADMIN_ROLE);
+
+
+        return $this;
     }
 
     /**
-     * Check if the current user has access to the request.
+     * Check if the current user has access to the resource.
      *
      * @param  string  $request
      * @return boolean
      */
-    public function isAllowed($request)
+    public function isAllowed($resource, $opt)
     {
         try {
-            return $this->acl->isAllowed($this->currentUserRole, $request);
+            return $this->acl->isAllowed($this->currentUserRole, $resource, $opt);
         } catch (InvalidArgumentException $exc) {
             return false;
         }

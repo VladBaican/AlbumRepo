@@ -1,7 +1,16 @@
+<?php
+$adminMode = $this->layout()->getVariable('adminMode');
+?>
 <h1 style="margin-top:75px;">Artists</h1>
 
 <p>
-    <a href="<?= $this->url('artist/add', ['action' => 'add']) ?>">Add new artist</a>
+    <a href="<?= $this->url('artist/add', ['action' => 'add']) ?>">
+        <?php
+        if (true === $adminMode) {
+            echo 'Add new artist';
+        }
+        ?>
+    </a>
 </p>
 <table class="table">
     <tr>
@@ -18,8 +27,20 @@
             <td><?= $this->escapeHtml(1 == $artist->getCivilState() ? 'married' : 'unmarried') ?></td>
             <td style="padding-left:67px;"><?= $this->escapeHtml($artist->getNumberOfAlbums()) ?></td>
             <td>
-                <a href="<?= $this->url('artist/edit', ['id' => $artist->getId()]) ?>">Edit</a>
-                <a href="<?= $this->url('artist/delete', ['id' => $artist->getId()]) ?>">Delete</a>
+                <a href="<?= $this->url('artist/edit', ['id' => $artist->getId()]) ?>">
+                    <?php
+                    if (true === $adminMode) {
+                            echo 'Edit';
+                    }
+                    ?>
+                </a>
+                <a href="<?= $this->url('artist/delete', ['id' => $artist->getId()]) ?>">
+                    <?php
+                    if (true === $adminMode) {
+                        echo 'Delete';
+                    }
+                    ?>
+                </a>
             </td>
         </tr>
     <?php endforeach; ?>

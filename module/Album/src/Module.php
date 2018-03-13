@@ -43,7 +43,7 @@ class Module implements ConfigProviderInterface
                 Controller\AlbumController::class => function ($container) {
                     $controller = new Controller\AlbumController(
                         $container->get(Model\AlbumTable::class),
-                        $container->get('event_manager'),
+                        $container->get('album_event_manager'),
                         $container->get('translator')
                     );
                     return $controller;

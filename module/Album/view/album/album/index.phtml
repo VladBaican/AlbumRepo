@@ -1,12 +1,16 @@
 <?php
-
 $title = $this->translator->translate('My albums');
 $this->headTitle($title);
+$adminMode = $this->layout()->getVariable('adminMode');
 ?>
 <h1 style="margin-top:75px;"><?= $this->escapeHtml($title) ?></h1>
 <p>
     <a href="<?= $this->url('album', ['action' => 'add']) ?>">
-        <?= $this->translator->translate('Add new album') ?>
+        <?php
+        if (true === $adminMode) {
+            echo $this->translator->translate('Add new album');
+        }
+        ?>
     </a>
 </p>
 
@@ -20,16 +24,30 @@ $this->headTitle($title);
         <tr>
             <td><?= $this->escapeHtml($album->title) ?></td>
             <td>
-                <a href="<?= $this->url('artist/edit', ['id' => $album->artistId]) ?>">
+                <a
+                    <?php
+                    if (true === $adminMode) {
+                        'href="' . $this->url('artist/edit', ['id' => $album->artistId]) . '"';
+                    }
+                    ?>
+                >
                     <?= $this->escapeHtml($this->table->getArtist($album)->getName()) ?>
                 </a>
             </td>
             <td>
                 <a href="<?= $this->url('album', ['action' => 'edit', 'id' => $album->id]) ?>">
-                    <?= $this->translator->translate('Edit') ?>
+                    <?php
+                    if (true === $adminMode) {
+                        echo $this->translator->translate('Edit');
+                    }
+                    ?>
                 </a>
                 <a href="<?= $this->url('album', ['action' => 'delete', 'id' => $album->id]) ?>">
-                    <?= $this->translator->translate('Delete') ?>
+                    <?php
+                    if (true === $adminMode) {
+                        echo $this->translator->translate('Delete');
+                    }
+                    ?>
                 </a>
             </td>
         </tr>

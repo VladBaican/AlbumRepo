@@ -29,7 +29,7 @@ class AuthenticationServiceFactory implements FactoryInterface
             $container->get(Session::class),
             $container->get(AuthenticationAdapter::class),
             $container->get(UserTable::class),
-            $container->get(UserRoleTable::class)
+            $container->get('authentication_event_manager')
         );
     }
 }
