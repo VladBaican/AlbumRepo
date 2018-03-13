@@ -7,7 +7,7 @@ $adminMode = $this->layout()->getVariable('adminMode');
 <p>
     <a href="<?= $this->url('album', ['action' => 'add']) ?>">
         <?php
-        if (true === $adminMode) {
+        if ($adminMode) {
             echo $this->translator->translate('Add new album');
         }
         ?>

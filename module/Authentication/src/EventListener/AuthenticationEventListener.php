@@ -23,8 +23,7 @@ class AuthenticationEventListener implements ListenerAggregateInterface
     /**
      * Constructor.
      *
-     * @param AlbumTable    $albumTable
-     * @param ArtistService $artistService
+     * @param UserRoleTable $userRoleTable
      */
     public function __construct(
         UserRoleTable $userRoleTable

@@ -56,12 +56,12 @@ class Module
         $resource = array_slice($resource, 1);
         1 === count($resource) ? array_push($resource, 'view') : null;
 
-        $isAllowed = call_user_func_array(
+        $allowed = call_user_func_array(
             [$aclService, 'isAllowed'],
             $resource
         );
 
-        if (! $isAllowed) {
+        if (! $allowed) {
             $response = $serviceManager->get('response');
             $response->getHeaders()
                 ->addHeaderLine('Location', '/authentication');

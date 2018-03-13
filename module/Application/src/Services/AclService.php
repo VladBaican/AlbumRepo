@@ -59,7 +59,7 @@ class AclService
     public function registerRoles()
     {
         $this->acl->addRole(new Role(self::GUEST_ROLE));
-        $this->acl->addRole(new Role(self::USER_ROLE));
+        $this->acl->addRole(new Role(self::USER_ROLE), self::GUEST_ROLE);
         $this->acl->addRole(new Role(self::ADMIN_ROLE));
 
         return $this;
@@ -75,7 +75,6 @@ class AclService
         $this->acl->addResource(new Resource(''));
         $this->acl->addResource(new Resource('authentication'));
         $this->acl->addResource(new Resource('album'));
-        $this->acl->addResource(new Resource('add'), 'album');
         $this->acl->addResource(new Resource('blog'));
         $this->acl->addResource(new Resource('artist'));
 
@@ -95,13 +94,12 @@ class AclService
         $this->acl->allow(self::USER_ROLE, 'album');
         $this->acl->allow(self::USER_ROLE, 'blog');
         $this->acl->allow(self::USER_ROLE, 'artist');
-        $this->acl->allow(self::USER_ROLE, '');
-        $this->acl->allow(self::USER_ROLE, 'authentication');
+        // $this->acl->allow(self::USER_ROLE, '');
+        // $this->acl->allow(self::USER_ROLE, 'authentication');
         $this->acl->deny(self::USER_ROLE, null, ['add', 'delete', 'edit']);
         $this->acl->allow(self::USER_ROLE, null, 'view');
 
         $this->acl->allow(self::ADMIN_ROLE);
-
 
         return $this;
     }
