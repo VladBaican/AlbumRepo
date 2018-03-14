@@ -1,12 +1,12 @@
 <?php
-$adminMode = $this->layout()->getVariable('adminMode');
+$aclService = $this->layout()->getVariable('aclService');
 ?>
 <h1 style="margin-top:75px;">Artists</h1>
 
 <p>
     <a href="<?= $this->url('artist/add', ['action' => 'add']) ?>">
         <?php
-        if (true === $adminMode) {
+        if ($aclService->isAllowed('artist', 'add')) {
             echo 'Add new artist';
         }
         ?>
@@ -29,14 +29,14 @@ $adminMode = $this->layout()->getVariable('adminMode');
             <td>
                 <a href="<?= $this->url('artist/edit', ['id' => $artist->getId()]) ?>">
                     <?php
-                    if (true === $adminMode) {
+                    if ($aclService->isAllowed('artist', 'edit')) {
                             echo 'Edit';
                     }
                     ?>
                 </a>
                 <a href="<?= $this->url('artist/delete', ['id' => $artist->getId()]) ?>">
                     <?php
-                    if (true === $adminMode) {
+                    if ($aclService->isAllowed('artist', 'delete')) {
                         echo 'Delete';
                     }
                     ?>

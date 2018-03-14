@@ -1,5 +1,5 @@
 <?php
-$adminMode = $this->layout()->getVariable('adminMode');
+$aclService = $this->layout()->getVariable('aclService');
 ?>
 <h1 style="margin-top:75px;">Blog</h1>
 
@@ -16,7 +16,7 @@ $adminMode = $this->layout()->getVariable('adminMode');
     class="btn-group"
     role="group"
     aria-label="Post actions"
-    style="<?= null === $adminMode ? 'display:none' : '' ?>"
+    style="<?= ! $aclService->isAllowed('artist', 'edit') ? 'display:none' : '' ?>"
     >
       <a class="btn btn-xs btn-default" href="<?= $this->url('blog/edit', ['id' => $post->getId()]) ?>">Edit</a>
       <a class="btn btn-xs btn-danger" href="<?= $this->url('blog/delete', ['id' => $post->getId()]) ?>">Delete</a>
@@ -29,7 +29,7 @@ $adminMode = $this->layout()->getVariable('adminMode');
   <a
     class="btn btn-primary"
     href="<?= $this->url('blog/add') ?>"
-    style="<?= null === $adminMode ? 'display:none' : '' ?>"
+    style="<?= ! $aclService->isAllowed('blog', 'add') ? 'display:none' : '' ?>"
   >
     Write new post
   </a>

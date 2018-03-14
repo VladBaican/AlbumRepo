@@ -1,13 +1,13 @@
 <?php
 $title = $this->translator->translate('My albums');
 $this->headTitle($title);
-$adminMode = $this->layout()->getVariable('adminMode');
+$aclService = $this->layout()->getVariable('aclService');
 ?>
 <h1 style="margin-top:75px;"><?= $this->escapeHtml($title) ?></h1>
 <p>
     <a href="<?= $this->url('album', ['action' => 'add']) ?>">
         <?php
-        if ($adminMode) {
+        if ($aclService->isAllowed('album', 'add')) {
             echo $this->translator->translate('Add new album');
         }
         ?>
@@ -26,7 +26,7 @@ $adminMode = $this->layout()->getVariable('adminMode');
             <td>
                 <a
                     <?php
-                    if (true === $adminMode) {
+                    if ($aclService->isAllowed('artist', 'edit')) {
                         'href="' . $this->url('artist/edit', ['id' => $album->artistId]) . '"';
                     }
                     ?>
@@ -37,14 +37,14 @@ $adminMode = $this->layout()->getVariable('adminMode');
             <td>
                 <a href="<?= $this->url('album', ['action' => 'edit', 'id' => $album->id]) ?>">
                     <?php
-                    if (true === $adminMode) {
+                    if ($aclService->isAllowed('album', 'edit')) {
                         echo $this->translator->translate('Edit');
                     }
                     ?>
                 </a>
                 <a href="<?= $this->url('album', ['action' => 'delete', 'id' => $album->id]) ?>">
                     <?php
-                    if (true === $adminMode) {
+                    if ($aclService->isAllowed('album', 'delete')) {
                         echo $this->translator->translate('Delete');
                     }
                     ?>

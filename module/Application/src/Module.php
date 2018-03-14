@@ -24,6 +24,8 @@ class Module
         $viewModel->translator = $translator;
 
         $aclService = $serviceManager->get('acl');
+        $viewModel->aclService = $aclService;
+
         $authentication = $serviceManager
             ->get(\Authentication\Services\AuthenticationService::class);
         $requestUri = $serviceManager->get('request')->getRequestUri();
@@ -34,10 +36,6 @@ class Module
             $authentication,
             $requestUri
         );
-
-        if (\Application\Services\AclService::ADMIN_ROLE === $aclService->getUserRole()) {
-            $viewModel->adminMode = true;
-        }
     }
 
     public function checkUserPermission(
