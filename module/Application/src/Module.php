@@ -45,19 +45,9 @@ class Module
         $requestUri
     ) {
         $identity = $authentication->getIdentity();
-
         $roles = $authentication->getRoles($identity);
-
         $aclService->setUserRoles($roles);
-
-        $resource = explode('/', $requestUri);
-        $resource = array_slice($resource, 1);
-        1 === count($resource) ? array_push($resource, 'view') : null;
-
-        $allowed = call_user_func_array(
-            [$aclService, 'isAllowed'],
-            $resource
-        );
+        $allowed = $aclService->checkIfAllowedByUri($requestUri);
 
         if (! $allowed) {
             $response = $serviceManager->get('response');

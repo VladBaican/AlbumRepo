@@ -2,6 +2,7 @@
 namespace Authentication\Model;
 
 use Zend\Db\TableGateway\TableGatewayInterface;
+use Authentication\Model\User;
 
 /**
  * User Role Table
@@ -23,8 +24,16 @@ class UserRoleTable
         $this->userRoleTableGateway = $userRoleTableGateway;
     }
 
-    public function saveUserRoles($data)
+    /**
+     * Save roles for user.
+     *
+     * @param  User $user
+     */
+    public function saveUserRoles(User $user)
     {
-        $this->userRoleTableGateway->insert($data);
+        $this->userRoleTableGateway->insert([
+            'userId' => $user->getId(),
+            'roleId' => 1
+        ]);
     }
 }

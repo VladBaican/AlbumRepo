@@ -7,11 +7,12 @@ use Zend\EventManager\ListenerAggregateInterface;
 use Zend\EventManager\ListenerAggregateTrait;
 use Authentication\Event\UserCreated;
 use Authentication\Model\UserRoleTable;
+use Authentication\Model\User;
 
 /*
- * Authentication Event Listener
+ * User Event Listener
  */
-class AuthenticationEventListener implements ListenerAggregateInterface
+class UserEventListener implements ListenerAggregateInterface
 {
     use ListenerAggregateTrait;
 
@@ -32,10 +33,7 @@ class AuthenticationEventListener implements ListenerAggregateInterface
     }
 
     /**
-     * Register the listeners.
-     *
-     * @param  EventManagerInterface $events
-     * @param  integer               $priority
+     * {@inheritDoc}
      */
     public function attach(EventManagerInterface $events, $priority = 1)
     {
@@ -53,11 +51,8 @@ class AuthenticationEventListener implements ListenerAggregateInterface
     public function onUserCreated(UserCreated $event)
     {
         $params = $event->getParams();
-        $userId = $params['userId'];
+        $user = $params['user'];
 
-        $this->userRoleTable->saveUserRoles([
-            'userId' => $userId,
-            'roleId' => 1
-        ]);
+        $this->userRoleTable->saveUserRoles($user);
     }
 }

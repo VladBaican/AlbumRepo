@@ -1,16 +1,20 @@
 <?php
 namespace Authentication\Model;
 
+use RuntimeException;
 use Zend\Db\TableGateway\TableGatewayInterface;
 use Zend\Db\Sql\Sql;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
 use Zend\Paginator\Adapter\DbSelect;
 use Zend\Db\Adapter\Adapter;
-use \Application\Services\AclService;
+use Zend\Db\Adapter\Driver\ResultInterface;
+use Zend\Db\Sql\Insert;
 use Zend\Db\Adapter\AdapterInterface;
 use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\TableIdentifier;
+use Authentication\Model\User;
+use \Application\Services\AclService;
 
 /**
  * User Table
@@ -35,15 +39,32 @@ class UserTable
     /**
      * Save user.
      *
-     * @param  array $credentials
+     * @param  User $user
      * @return int
      */
-    public function saveUser($credentials)
+    public function saveUser(User $user)
     {
-        $this->userTableGateway->insert($credentials);
-        $id = $this->userTableGateway->getLastInsertValue();
+        $insert = new Insert('users');
+        $insert->values([
+            'username' => $user->getUsername(),
+            'password' => $user->getPassword()
+        ]);
 
-        return $id;
+        $sql = new Sql($this->userTableGateway->getAdapter());
+        $statement = $sql->prepareStatementForSqlObject($insert);
+        $result = $statement->execute();
+
+        if (! $result instanceof ResultInterface) {
+            throw new RuntimeException(
+                'Database error occurred during user creation'
+            );
+        }
+
+        return new User(
+            $user->getUsername(),
+            $user->getPassword(),
+            $result->getGeneratedValue()
+        );
     }
 
     /**
@@ -81,7 +102,5 @@ class UserTable
         }
 
         return $result->toArray()[0]['name'];
-        // echo $sql->getSqlStringForSqlObject($select);
-        // die;
     }
 }

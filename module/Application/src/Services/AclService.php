@@ -120,6 +120,23 @@ class AclService
     }
 
     /**
+     * Check if the current user has access to the resource given by url.
+     */
+    public function checkIfAllowedByUri(string $requestUri)
+    {
+        $resource = explode('/', $requestUri);
+        $resource = array_slice($resource, 1);
+        1 === count($resource) ? array_push($resource, 'view') : null;
+
+        $allowed = call_user_func_array(
+            [$this, 'isAllowed'],
+            $resource
+        );
+
+        return $allowed;
+    }
+
+    /**
      * Set current user role.
      *
      * @param string $role

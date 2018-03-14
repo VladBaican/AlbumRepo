@@ -8,6 +8,7 @@ use Zend\EventManager\EventManager;
 use Authentication\Model\AuthenticationAdapter;
 use Authentication\Model\UserTable;
 use Authentication\Event\UserCreated;
+use Authentication\Model\User;
 
 /**
  * Authentication Service
@@ -99,13 +100,13 @@ class AuthenticationService extends ZendAuthenticationService
     /**
      * Add a new user.
      *
-     * @param  array  $credentials
+     * @param User $user
      */
-    public function saveUser($credentials)
+    public function saveUser(User $user)
     {
-        $id = $this->userTable->saveUser($credentials);
+        $user = $this->userTable->saveUser($user);
         $this->eventManager->triggerEvent(
-            new UserCreated(null, $this, ['userId' => $id])
+            new UserCreated(null, null, ['user' => $user])
         );
     }
 }

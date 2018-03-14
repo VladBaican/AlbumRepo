@@ -156,13 +156,13 @@ return [
 
                 return $eventManager;
             },
-            'authentication_event_manager' => function ($container) {
+            'user_event_manager' => function ($container) {
                 $eventManager = new \Zend\EventManager\EventManager();
 
-                $authenticationEventListener = new \Authentication\EventListener\AuthenticationEventListener(
+                $userEventListener = new \Authentication\EventListener\UserEventListener(
                     $container->get(\Authentication\Model\UserRoleTable::class)
                 );
-                $authenticationEventListener->attach($eventManager);
+                $userEventListener->attach($eventManager);
 
                 return $eventManager;
             },

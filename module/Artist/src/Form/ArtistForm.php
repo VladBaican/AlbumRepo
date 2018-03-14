@@ -5,7 +5,6 @@ use Zend\Form\Form;
 
 /*
  * Artist Form
- *
  */
 class ArtistForm extends Form
 {

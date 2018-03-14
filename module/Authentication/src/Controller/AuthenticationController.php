@@ -3,12 +3,13 @@ namespace Authentication\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\Permissions\Acl\Resource\ResourceInterface;
 use \Application\Model\AlertMessage;
 use \Application\Services\AclService;
 use Authentication\Services\AuthenticationService;
 use Authentication\Form\AuthenticationForm;
 use Authentication\Model\AuthenticationValidator;
-use Zend\Permissions\Acl\Resource\ResourceInterface;
+use Authentication\Model\User;
 
 /**
  * Authentication Controller
@@ -149,8 +150,9 @@ class AuthenticationController extends AbstractActionController
         }
 
         $credentials = $this->form->getData();
+        $user = new User($credentials['username'], $credentials['password']);
 
-        $this->authentication->saveUser($credentials);
+        $this->authentication->saveUser($user);
 
         $alertMessage = new AlertMessage(
             AlertMessage::TYPE_SUCCESS,
